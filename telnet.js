@@ -30,9 +30,7 @@ connection.connect(params)
   })
 
 
-setInterval(() => {
-  connection.send('status', {}, (res) => { console.log(res) })
-}, 1000)
+
 
 
 // connection.connect(params)
@@ -41,12 +39,12 @@ setInterval(() => {
 // connection.on('ready', function (prompt) {
 //   connection.exec(cmd);
 // });
-
+/*
 connection.on('data', (res) => {
   console.log(res.toString())
 })
 
-
+*/
 // connection.on('timeout', function () {
 //   console.log('socket timeout!')
 //   connection.end();
@@ -55,3 +53,17 @@ connection.on('data', (res) => {
 // connection.on('close', function () {
 //   console.log('connection closed');
 // });
+
+
+module.exports.sendCommandToEva = function(cmd, callback) {
+  setInterval(() => {
+    connection.send(cmd, {}, (res) => { console.log(res) })
+  }, 1000)
+
+  connection.on('data', (res) => {
+    console.log(res);
+    callback(res);
+  })
+}
+
+
