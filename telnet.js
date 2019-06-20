@@ -57,12 +57,19 @@ connection.on('data', (res) => {
 // });
 connection.on('data', (res) => {
   //console.log(res.toString());
-  mqtt.sendUpdate(res.toString())
+  //mqtt.sendUpdate(res.toString())
+  mqtt.sendUpdate(controlString(res))
 })
 
 
 function controlString(string){
-  string.include("")
+  var str = string.toString();
+  if(str.includes("End of commands")){
+    console.log("list of command found! ignoring it")
+    return str = " ";
+  }
+  return str;
+
 }
 
 
