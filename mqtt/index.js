@@ -64,7 +64,7 @@ module.exports.sendUpdate = function (data) {
             dateEnd: response[11] == 'None' ? response[11] : null,
             timeEnd: response[12] == 'None' ? response[12] : null,
         }
-        client.publish(`${defaultTopic}/status/lasttask`, obj)
+        client.publish(`${defaultTopic}/status/lasttask`, JSON.stringify(obj))
         console.log(obj);
     }
 
@@ -80,12 +80,12 @@ module.exports.sendUpdate = function (data) {
             dateEnd: response[11] == 'None' ? response[11] : null,
             timeEnd: response[12] == 'None' ? response[12] : null,
         }
-        client.publish(`${defaultTopic}/status/lasttask`, obj)
+        client.publish(`${defaultTopic}/status/lasttask`, JSON.stringify(obj))
         console.log(obj);
     }
 
     // broker.hivemq.com/omroneva/status
-    client.publish(`${defaultTopic}/status`, obj)
+    //client.publish(`${defaultTopic}/status`, obj)
 
 }
 

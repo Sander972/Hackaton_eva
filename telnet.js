@@ -57,8 +57,8 @@ connection.on('data', (res) => {
 // });
 connection.on('data', (res) => {
   //console.log(res.toString());
-  //mqtt.sendUpdate(res.toString())
-  mqtt.sendUpdate(controlString(res))
+  mqtt.sendUpdate(res.toString())
+  //mqtt.sendUpdate(controlString(res))
 })
 
 
@@ -75,6 +75,6 @@ function controlString(string){
 
 module.exports.sendCommandToEva = function(cmd) {
 
-  connection.send(cmd, {}, (res) => { console.log(cmd + " ###") })
+  connection.send(cmd, {}, (res) => { console.log(JSON.stringify(cmd) + " ###") })
 }
 
