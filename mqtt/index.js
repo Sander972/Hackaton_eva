@@ -51,10 +51,42 @@ client.on('error', (error) => {
 })
 
 // Provide function to send data from robot to dashboard
-module.exports.sendUpdate = function(data) {
+module.exports.sendUpdate = function (data) {
+    if (data.includes('QueueUpdate:')) {
+        var response = data.split(' ');
+        var obj = {
+            jobID: response[1],
+            priority: response[3],
+            status: response[4],
+            goalID: response[6] + ' ' + response[7],
+            dateStart: response[9],
+            timeStart: response[10],
+            dateEnd: response[11] == 'None' ? response[11] : null,
+            timeEnd: response[12] == 'None' ? response[12] : null,
+        }
+        client.publish(`${defaultTopic}/status/lasttask`, obj)
+        console.log(obj);
+    }
+
+    if (data.includes('QueueUpdate:')) {
+        var response = data.split(' ');
+        var obj = {
+            jobID: response[1],
+            priority: response[3],
+            status: response[4],
+            goalID: response[6] + ' ' + response[7],
+            dateStart: response[9],
+            timeStart: response[10],
+            dateEnd: response[11] == 'None' ? response[11] : null,
+            timeEnd: response[12] == 'None' ? response[12] : null,
+        }
+        client.publish(`${defaultTopic}/status/lasttask`, obj)
+        console.log(obj);
+    }
 
     // broker.hivemq.com/omroneva/status
-    client.publish(`${defaultTopic}/status`, data)
+    client.publish(`${defaultTopic}/status`, obj)
+
 }
 
 function error(err) { console.log(err); }
