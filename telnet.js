@@ -13,9 +13,7 @@ var params = {
   execTimeout: 3000
   // removeEcho: 4
 }
-var opt = {
-  timeout: '10000'
-}
+var data;
 
 
 connection.connect(params)
