@@ -13,7 +13,7 @@
 
 var mqtt = require('mqtt')
 var config = require('../config/mqtt')
-// TODO var telnetClient = require('./telnet');
+var telnetClient = require('../telnet');
 
 var defaultTopic = 'omroneva'
 var client = mqtt.connect(config.cs)
@@ -35,12 +35,10 @@ client.on('message', (topic, message) => {
 
         switch (command.jobType) {
             case 'pickup':
-                pickup(command)
-                console.log('do pickup');
+                pickup(command); console.log('do pickup');
                 break;
             case 'dropoff':
-                dropoff(command)
-                console.log('do dropoff');
+                dropoff(command); console.log('do dropoff');
                 break;
         }
     }
@@ -56,17 +54,26 @@ client.on('error', (error) => {
 function sendStatus(data) {
 
     // broker.hivemq.com/omroneva/status
+    // client.publish(`${defaultTopic}/status`, data)
+}
+
+function sendUpdate(data) {
+
+    // broker.hivemq.com/omroneva/status
     client.publish(`${defaultTopic}/status`, data)
 }
 
 function error(err) { console.log(err); }
 
-function pickup(cmd) {
-    telnetClient.sendCommandToEva(cmd); //TODO
+function pickup(json) {
+    var cmd = `qp ${json.goalID} ${json.priority}`
+    telnetClient.sendCommandToEva(cmd);
 }
 
 function dropoff(cmd) {
-    telnetClient.sendQueuePicker(cmd); //TODO
+    telnetClient.sendCommandToEva(cmd);
 }
+
+
 
 module.exports = { sendStatus }
