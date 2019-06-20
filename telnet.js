@@ -1,6 +1,8 @@
 var Telnet = require('telnet-client')
 var connection = new Telnet()
 
+var mqtt = require('./mqtt')
+
 var cmd = "status"
 var params = {
   host: '192.168.100.2',
@@ -53,17 +55,18 @@ connection.on('data', (res) => {
 // connection.on('close', function () {
 //   console.log('connection closed');
 // });
+connection.on('data', (res) => {
+  console.log(res.toString());
+  mqtt.sendUpdate(res)
+})
 
 
 module.exports.sendCommandToEva = function(cmd, callback) {
   setInterval(() => {
-    connection.send(cmd, {}, (res) => { console.log(res) })
+    connection.send(cmd, {}, (res) => { console.log(cmd) })
   }, 1000)
 
-  connection.on('data', (res) => {
-    console.log(res);
-    callback(res);
-  })
+
 }
 
 
