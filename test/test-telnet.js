@@ -16,8 +16,8 @@ connection.connect(params)
         (prompt) => {
             console.log(prompt);
             connection.exec('status')
-                .then(console.log)
-                .catch(console.log)
+                // .then(console.log)
+                // .catch(console.log)
         },
         (error) => {
             console.log('promises reject:', error)
@@ -26,3 +26,5 @@ connection.connect(params)
         console.log(error);
         // handle the throw (timeout)
     })
+
+connection.on('data', (msg) => { console.log(msg); })

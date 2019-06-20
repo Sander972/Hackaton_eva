@@ -1,13 +1,13 @@
 var Telnet = require('telnet-client')
 var connection = new Telnet()
 
-var cmd= "status"
+var cmd = "status"
 var params = {
   host: '192.168.100.2',
   port: 7171,
   passwordPrompt: 'Enter password:',
   password: 'adept',
-  shellPrompt: '',
+  shellPrompt: 'Welcome to the server',
   timeout: 3000,
   sendTimeout: 3000,
   execTimeout: 3000
@@ -17,13 +17,12 @@ var opt = {
   timeout: '10000'
 }
 
-/*
+
 connection.connect(params)
   .then((prompt) => {
-    console.log(prompt);
-    connection.exec(cmd)
-      .then(console.log)
-        },
+    // console.log(prompt);
+
+  },
     (error) => {
       console.log('promises reject:', error)
     })
@@ -32,26 +31,29 @@ connection.connect(params)
     // handle the throw (timeout)
   })
 
-*/
 
-connection.connect(params)
-  .then(console.log)
-
-connection.on('ready', function(prompt) {
-  connection.exec(cmd);
-});
-
-connection.on('data', (res) =>{
-    console.log(res.toString())
-  })
+setInterval(() => {
+  connection.send('status', {}, (res) => { console.log(res) })
+}, 1000)
 
 
-connection.on('timeout', function() {
-  console.log('socket timeout!')
-  connection.end();
-});
+// connection.connect(params)
+//   .then(console.log)
 
-connection.on('close', function() {
-  console.log('connection closed');
-});
+// connection.on('ready', function (prompt) {
+//   connection.exec(cmd);
+// });
 
+connection.on('data', (res) => {
+  console.log(res.toString())
+})
+
+
+// connection.on('timeout', function () {
+//   console.log('socket timeout!')
+//   connection.end();
+// });
+
+// connection.on('close', function () {
+//   console.log('connection closed');
+// });

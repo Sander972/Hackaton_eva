@@ -29,8 +29,20 @@ client.on('message', (topic, message) => {
 
     // broker.hivemq.com/omroneva/command/qp
     if (topic == `${defaultTopic}/command/task`) {
-        // TODO telnetClient.sendQueuePicker(message);
-        console.log("qp: " + message);
+
+        var command = JSON.parse(message);
+        console.log(command);
+
+        switch (command.jobType) {
+            case 'pickup':
+                pickup(command)
+                console.log('do pickup');
+                break;
+            case 'dropoff':
+                dropoff(command)
+                console.log('do dropoff');
+                break;
+        }
     }
 })
 
@@ -48,5 +60,13 @@ function sendStatus(data) {
 }
 
 function error(err) { console.log(err); }
+
+function pickup(cmd) {
+    telnetClient.sendCommandToEva(cmd); //TODO
+}
+
+function dropoff(cmd) {
+    telnetClient.sendQueuePicker(cmd); //TODO
+}
 
 module.exports = { sendStatus }
