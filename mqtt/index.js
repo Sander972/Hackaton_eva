@@ -51,12 +51,6 @@ client.on('error', (error) => {
 })
 
 // Provide function to send data from robot to dashboard
-function sendStatus(data) {
-
-    // broker.hivemq.com/omroneva/status
-    // client.publish(`${defaultTopic}/status`, data)
-}
-
 function sendUpdate(data) {
 
     // broker.hivemq.com/omroneva/status
@@ -76,4 +70,4 @@ function dropoff(cmd) {
 
 
 
-module.exports = { sendStatus }
+module.exports = { sendUpdate }
