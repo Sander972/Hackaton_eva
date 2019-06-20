@@ -13,9 +13,7 @@ var params = {
   execTimeout: 3000
   // removeEcho: 4
 }
-var opt = {
-  timeout: '10000'
-}
+var data;
 
 /*
 connection.connect(params)
@@ -38,11 +36,13 @@ connection.connect(params)
   .then(console.log)
 
 connection.on('ready', function(prompt) {
-  connection.exec(cmd);
+  connection.send(cmd,{},data);
+  console.log(data);
 });
 
 connection.on('data', (res) =>{
-    console.log(res.toString())
+    //console.log(res.toString())
+    //connection.exec(cmd);
   })
 
 
