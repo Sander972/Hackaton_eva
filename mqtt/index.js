@@ -67,20 +67,26 @@ module.exports.sendUpdate = function (data) {
         client.publish(`${defaultTopic}/status/lasttask`, obj)
         console.log(obj);
     }
+    
+    // Status: Arrived at B
 
-    if (data.includes('QueueUpdate:')) {
+    if (data.includes('Temperature:')) {
         var response = data.split(' ');
         var obj = {
-            jobID: response[1],
-            priority: response[3],
-            status: response[4],
-            goalID: response[6] + ' ' + response[7],
-            dateStart: response[9],
-            timeStart: response[10],
-            dateEnd: response[11] == 'None' ? response[11] : null,
-            timeEnd: response[12] == 'None' ? response[12] : null,
+            type: 'temp',
+            value: response[1]
         }
-        client.publish(`${defaultTopic}/status/lasttask`, obj)
+        client.publish(`${defaultTopic}/status`, obj)
+        console.log(obj);
+    }
+
+    if (data.includes('StateOfCharge:')) {
+        var response = data.split(' ');
+        var obj = {
+            type: 'battery',
+            value: response[1]
+        }
+        client.publish(`${defaultTopic}/status`, obj)
         console.log(obj);
     }
 
