@@ -67,7 +67,7 @@ module.exports.sendUpdate = function (data) {
         client.publish(`${defaultTopic}/status/lasttask`, obj)
         console.log(obj);
     }
-    
+
     // Status: Arrived at B
 
     if (data.includes('Temperature:')) {
@@ -89,11 +89,14 @@ module.exports.sendUpdate = function (data) {
         client.publish(`${defaultTopic}/status`, obj)
         console.log(obj);
     }
-
-    // broker.hivemq.com/omroneva/status
-    client.publish(`${defaultTopic}/status`, obj)
-
 }
+
+// broker.hivemq.com/omroneva/status
+// client.publish(`${defaultTopic}/status`, obj)
+
+setInterval(() => {
+    telnetClient.sendCommandToEva('status');
+}, 1000)
 
 function error(err) { console.log(err); }
 
@@ -102,7 +105,8 @@ function pickup(json) {
     telnetClient.sendCommandToEva(cmd);
 }
 
-function dropoff(cmd) {
+function dropoff(json) {
+    var cmd = `qd ${json.goalID} ${json.priority}`
     telnetClient.sendCommandToEva(cmd);
 }
 
